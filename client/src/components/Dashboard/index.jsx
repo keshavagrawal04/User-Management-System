@@ -34,7 +34,7 @@ function Dashboard() {
         };
         try {
             console.log()
-            response = await axios.get('http://localhost:8000/api/user/get/', axiosConfig);
+            response = await axios.get('https://user-management-system-apis.vercel.app/api/user/get/', axiosConfig);
             setUsers(response.data.data);
         } catch (error) {
             console.log(error);
@@ -64,7 +64,7 @@ function Dashboard() {
                     }
                 };
                 try {
-                    await axios.delete('http://localhost:8000/api/user/delete/' + e.target.id, axiosConfig);
+                    await axios.delete('https://user-management-system-apis.vercel.app/api/user/delete/' + e.target.id, axiosConfig);
                     Swal.fire({
                         title: "Deleted!",
                         text: "User data has been deleted.",

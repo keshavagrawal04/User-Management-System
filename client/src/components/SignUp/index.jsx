@@ -12,7 +12,7 @@ function SignUp() {
         form.reset();
         let response = "";
         try {
-            response = await axios.post('http://localhost:8000/api/user/register', {
+            response = await axios.post('https://user-management-system-apis.vercel.app/api/user/register', {
                 name: user.name,
                 email: user.email,
                 age: user.age,

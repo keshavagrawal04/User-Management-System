@@ -13,7 +13,7 @@ function Login() {
         e.preventDefault();
         let response = "";
         try {
-            response = await axios.post("http://localhost:8000/api/user/login", {
+            response = await axios.post("https://user-management-system-apis.vercel.app/api/user/login", {
                 email: user.email,
                 password: user.password
             })
