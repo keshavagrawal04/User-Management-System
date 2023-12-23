@@ -19,11 +19,9 @@ function Dashboard() {
                 navigate('/login');
                 i++;
             }
-        } else {
-            fetchData();
         }
-    }, [users]);
-
+    });
+    
     const fetchData = async () => {
         let response = "";
         tokens = JSON.parse(localStorage.getItem('tokens'));
@@ -40,6 +38,8 @@ function Dashboard() {
             console.log(error);
         }
     }
+    
+    fetchData();
 
     const userUpdate = async (e) => {
         e.preventDefault();
