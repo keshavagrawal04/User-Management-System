@@ -22,7 +22,7 @@ function Dashboard() {
         } else {
             fetchData();
         }
-    });
+    }, [users]);
 
     const fetchData = async () => {
         let response = "";
