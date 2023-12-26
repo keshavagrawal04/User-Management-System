@@ -20,8 +20,9 @@ function Dashboard() {
                 navigate('/login');
                 i++;
             } 
+        } else {
+            fetchData();
         }
-        fetchData();
     }, []);
 
     const fetchData = async () => {
