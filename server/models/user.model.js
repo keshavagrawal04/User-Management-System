@@ -20,8 +20,8 @@ const userSchema = mongoose.Schema({
         unique: true
     },
     password: {
-        type: String,
-        require: true
+        hash: String,
+        salt: String
     },
 }, { timestamps: true });
 

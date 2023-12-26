@@ -1,6 +1,7 @@
 const userModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { crypto } = require('../utils');
 
 const registerUser = async (req, res) => {
     try {
@@ -8,7 +9,7 @@ const registerUser = async (req, res) => {
         if (user) {
             res.status(400).json({ message: "User Already Exists" });
         } else {
-            let password = await bcrypt.hash(req.body.password, 10)
+            let password = crypto.generateHash(req.body.password);
             user = await userModel.create({
                 name: req.body.name,
                 age: req.body.age,
@@ -28,8 +29,8 @@ const loginUser = async (req, res) => {
     try {
         let user = await userModel.findOne({ email: req.body.email });
         if (!user) return res.status(400).json({ message: "User With This Email Is Not Registered" });
-        let passwordMatch = await bcrypt.compare(req.body.password, user.password);
-        if (!passwordMatch) return res.status(400).json({ message: "Password Mismatch" });
+        let isPasswordValid = crypto.validateHash(req.body.password, user.password.salt, user.password.hash);
+        if (!isPasswordValid) return res.status(400).json({ message: "Password Mismatch" });
 
         user = { user_id: user._id }
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
