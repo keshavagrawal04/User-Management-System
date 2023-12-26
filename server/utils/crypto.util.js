@@ -14,7 +14,7 @@ const generateHash = (password, salt = crypto.randomBytes(32).toString('hex')) =
 
 const validateHash = (password, salt, hash) => {
     try {
-        const generatedHash = generateHash(password, salt);
+        const { hash: generatedHash } = generateHash(password, salt);
         const isHashValid = generatedHash === hash;
         return isHashValid;
     } catch (error) {
