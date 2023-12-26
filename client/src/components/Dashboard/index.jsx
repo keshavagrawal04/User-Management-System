@@ -13,16 +13,16 @@ function Dashboard() {
     let tokens;
     let i = 0;
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            if (i === 0) {
-                toast.error('You Must Be Logged In');
-                navigate('/login');
-                i++;
-            } else {
-                fetchData();
-            }
+    if (!isLoggedIn) {
+        if (i === 0) {
+            toast.error('You Must Be Logged In');
+            navigate('/login');
+            i++;
         }
+    }
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
     const fetchData = async () => {
