@@ -13,15 +13,14 @@ function Dashboard() {
     let tokens;
     let i = 0;
 
-    if (!isLoggedIn) {
-        if (i === 0) {
-            toast.error('You Must Be Logged In');
-            navigate('/login');
-            i++;
-        }
-    }
-
     useEffect(() => {
+        if (!isLoggedIn) {
+            if (i === 0) {
+                toast.error('You Must Be Logged In');
+                navigate('/login');
+                i++;
+            } 
+        }
         fetchData();
     }, []);
 
