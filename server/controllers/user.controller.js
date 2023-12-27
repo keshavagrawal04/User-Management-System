@@ -1,5 +1,5 @@
 const { userService } = require('../services');
-const { crypto, jwt } = require('../utils');
+const { crypto, jwt, logger } = require('../utils');
 const { responseMessage } = require('../configs');
 const { uploadOnCloudinary } = require('../utils');
 
@@ -27,16 +27,19 @@ const loginUser = async (req, res) => {
     try {
         let user = await userService.getUserByEmail(req.body.email);
         if (!user) return res.status(400).json({ message: responseMessage.USER_NOT_REGISTERED });
+        logger.error(responseMessage.USER_NOT_REGISTERED);
         let isPasswordValid = crypto.validateHash(req.body.password, user.password.salt, user.password.hash);
         if (!isPasswordValid) return res.status(400).json({ message: responseMessage.PASSWORD_MISMATCH });
 
         user = { user_id: user._id }
         const tokens = jwt.generateJWTTokens(user);
+        logger.info(responseMessage.USER_LOGGED_IN);
         return res.status(201).json({
             message: responseMessage.USER_LOGGED_IN,
             tokens: tokens
         });
     } catch (error) {
+        logger.error(error.message);
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
     }
 }
