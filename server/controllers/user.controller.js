@@ -25,7 +25,6 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         let user = await userService.getUserByEmail(req.body.email);
-        console.log(user)
         if (!user) return res.status(400).json({ message: responseMessage.USER_NOT_REGISTERED });
         let isPasswordValid = crypto.validateHash(req.body.password, user.password.salt, user.password.hash);
         if (!isPasswordValid) return res.status(400).json({ message: responseMessage.PASSWORD_MISMATCH });
