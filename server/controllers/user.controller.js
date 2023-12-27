@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
         if (user) {
             res.status(400).json({ message: responseMessage.USER_ALREADY_EXISTS });
         } else {
-            const profileImageLocalPath = req.files?.profileImage[0]?.path;
+            const profileImageLocalPath = req.file.path;
             const profileImage = await uploadOnCloudinary(profileImageLocalPath);
             req.body.profileImage = profileImage.url;
             user = await userService.saveUser(req.body);
