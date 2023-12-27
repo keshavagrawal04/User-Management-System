@@ -1,9 +1,9 @@
 const { userService } = require('../services');
-const { crypto } = require('../utils');
-const jwt = require('jsonwebtoken');
+const { crypto, jwt } = require('../utils');
 const { responseMessage } = require('../configs');
 const { uploadOnCloudinary } = require('../utils');
 
+// FUNCTION : User Register
 const registerUser = async (req, res) => {
     try {
         let user = await userService.getUserByEmail(req.body.email);
@@ -22,6 +22,7 @@ const registerUser = async (req, res) => {
     }
 }
 
+// FUNCTION : User Login
 const loginUser = async (req, res) => {
     try {
         let user = await userService.getUserByEmail(req.body.email);
@@ -30,20 +31,17 @@ const loginUser = async (req, res) => {
         if (!isPasswordValid) return res.status(400).json({ message: responseMessage.PASSWORD_MISMATCH });
 
         user = { user_id: user._id }
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '12h' });
-        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+        const tokens = jwt.generateJWTTokens(user);
         return res.status(201).json({
             message: responseMessage.USER_LOGGED_IN,
-            tokens: {
-                access: accessToken,
-                refresh: refreshToken
-            }
+            tokens: tokens
         });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
     }
 }
 
+// FUNCTION : Get All Users
 const getUsers = async (req, res) => {
     try {
         const users = await userService.getUsers();
@@ -54,6 +52,7 @@ const getUsers = async (req, res) => {
     }
 }
 
+// FUNCTION : Get User
 const getUser = async (req, res) => {
     try {
         const user = await userService.getUserById(req.params.id);
@@ -64,6 +63,7 @@ const getUser = async (req, res) => {
     }
 }
 
+// FUNCTION : Delete User
 const deleteUser = async (req, res) => {
     try {
         const user = await userService.deleteUser(req.params.id);
@@ -74,6 +74,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// FUNCTION : Update User
 const updateUser = async (req, res) => {
     try {
         let user = await userService.getUserById(req.params.id);
@@ -85,11 +86,31 @@ const updateUser = async (req, res) => {
     }
 }
 
+// FUNCTION : Generate New Access Tokens For Valid Refresh Token
+const accessTokenRefresh = (req, res) => {
+    const refreshToken = req.body.refreshToken;
+    if (refreshToken == "") return res.status(400).json({ message: "refreshToken field is required" });
+
+    try {
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, decode) => {
+            if (error) return res.status(400).json({ message: "Invalid Refresh Token" });
+            const user = {
+                user_id: decode.id,
+            }
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+            return res.status(200).json({ message: "Access Token Refreshed", tokens: { access: accessToken } });
+        });
+    } catch (error) {
+        return res.status(400).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
     getUsers,
     getUser,
     deleteUser,
-    updateUser
+    updateUser,
+    accessTokenRefresh
 }

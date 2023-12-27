@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const { crypto } = require('../utils');
 
+// FUNCTION : Save User
 const saveUser = async (payload) => {
     try {
         payload.password = crypto.generateHash(payload.password);
@@ -11,6 +12,7 @@ const saveUser = async (payload) => {
     }
 }
 
+// FUNCTION : Get User By Email
 const getUserByEmail = async (email) => {
     try {
         const user = await User.findOne({ email });
@@ -20,6 +22,7 @@ const getUserByEmail = async (email) => {
     }
 }
 
+// FUNCTION : Get User By Id
 const getUserById = async (user_id) => {
     try {
         const user = await User.findById({ _id: user_id });
@@ -29,6 +32,7 @@ const getUserById = async (user_id) => {
     }
 }
 
+// FUNCTION : Get All Users
 const getUsers = async () => {
     try {
         const users = await User.find().select('-password');
@@ -38,6 +42,7 @@ const getUsers = async () => {
     }
 }
 
+// FUNCTION : Delete User
 const deleteUser = async (user_id) => {
     try {
         const user = await User.findOneAndDelete({ _id: user_id });
@@ -47,6 +52,7 @@ const deleteUser = async (user_id) => {
     }
 }
 
+// FUNCTION : Update User
 const updateUser = async (user_id, payload) => {
     try {
         const user = await User.findOneAndUpdate({ _id: user_id }, {
