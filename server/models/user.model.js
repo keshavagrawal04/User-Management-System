@@ -14,14 +14,22 @@ const userSchema = mongoose.Schema({
         require: true,
         length: 10
     },
+    profileImage: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true,
         unique: true
     },
     password: {
-        hash: String,
-        salt: String
+        hash: {
+            type: String,
+        },
+        salt: {
+            type: String,
+        },
     },
 }, { timestamps: true });
 

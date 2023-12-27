@@ -1,9 +1,11 @@
 const router = require('express').Router();
 const { userController } = require('../controllers');
 const { authMiddleware } = require('../middlewares');
+const { multerMiddleware } = require('../middlewares');
+
 const { jwt } = require('../utils');
 
-router.post('/register', userController.registerUser);
+router.post('/register', multerMiddleware.upload.fields([{ name: 'profileImage', maxCount: 1 }]), userController.registerUser);
 router.post('/login', userController.loginUser);
 router.get('/get', authMiddleware.authenticateToken, userController.getUsers);
 router.get('/get/:id', authMiddleware.authenticateToken, userController.getUser);
