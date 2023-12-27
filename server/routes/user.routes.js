@@ -4,7 +4,7 @@ const { authMiddleware, multerMiddleware } = require('../middlewares');
 const { jwt } = require('../utils');
 
 // ROUTE : User Register
-router.post('/register', multerMiddleware.upload.single('profilePicture'), userController.registerUser);
+router.post('/register', multerMiddleware.upload.single('profileImage'), userController.registerUser);
 
 // ROUTE : User Login
 router.post('/login', userController.loginUser);
