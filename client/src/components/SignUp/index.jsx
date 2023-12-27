@@ -20,7 +20,7 @@ function SignUp() {
         form.reset();
         let response = "";
         try {
-            response = await axios.post('http://localhost:8000/api/user/register', formData, {
+            response = await axios.post('https://user-management-system-apis.vercel.app/api/user/register', formData, {
                 'headers': {
                     'Content-Type': 'multipart/form-data'
                 }
