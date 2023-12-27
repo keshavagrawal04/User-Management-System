@@ -67,7 +67,7 @@ const getUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const user = await User.findOneAndDelete({ _id: req.params.id });
+        const user = await userService.deleteUser(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
         return res.status(200).json({ message: responseMessage.USER_DELETED, data: user });
     } catch (error) {
@@ -77,11 +77,9 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        let user = await User.findById({ _id: req.params.id });
+        let user = await userService.getUserById(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
-        user = await User.findOneAndUpdate({ _id: req.params.id }, {
-            ...req.body
-        }, { new: true });
+        user = userService.updateUser(req.params.id, req.body)
         return res.status(200).json({ message: responseMessage.USER_UPDATED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });

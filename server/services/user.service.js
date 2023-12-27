@@ -22,7 +22,7 @@ const getUserByEmail = async (email) => {
 
 const getUserById = async (user_id) => {
     try {
-        const user = await User.findById({ user_id });
+        const user = await User.findById({ _id: user_id });
         return user;
     } catch (error) {
         return false;
@@ -38,9 +38,31 @@ const getUsers = async () => {
     }
 }
 
+const deleteUser = async (user_id) => {
+    try {
+        const user = await User.findOneAndDelete({ _id: user_id });
+        return user;
+    } catch (error) {
+        return false;
+    }
+}
+
+const updateUser = async (user_id, payload) => {
+    try {
+        const user = await User.findOneAndUpdate({ _id: user_id }, {
+            ...payload
+        }, { new: true });
+        return user;
+    } catch (error) {
+        return false;
+    }
+}
+
 module.exports = {
     saveUser,
     getUserByEmail,
     getUserById,
-    getUsers
+    getUsers,
+    deleteUser,
+    updateUser
 }
