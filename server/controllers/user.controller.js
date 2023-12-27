@@ -67,7 +67,7 @@ const getUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const user = await userModel.findOneAndDelete({ _id: req.params.id });
+        const user = await User.findOneAndDelete({ _id: req.params.id });
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
         return res.status(200).json({ message: responseMessage.USER_DELETED, data: user });
     } catch (error) {
@@ -77,9 +77,9 @@ const deleteUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        let user = await userModel.findById({ _id: req.params.id });
+        let user = await User.findById({ _id: req.params.id });
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
-        user = await userModel.findOneAndUpdate({ _id: req.params.id }, {
+        user = await User.findOneAndUpdate({ _id: req.params.id }, {
             ...req.body
         }, { new: true });
         return res.status(200).json({ message: responseMessage.USER_UPDATED, data: user });
