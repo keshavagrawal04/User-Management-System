@@ -15,7 +15,6 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user.profileImage);
         const form = document.querySelector('#add-form');
         form.reset();
         let response = "";
