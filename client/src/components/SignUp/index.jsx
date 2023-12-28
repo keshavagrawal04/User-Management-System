@@ -6,7 +6,7 @@ function SignUp() {
     const [user, setUser] = useState({});
 
     let formData = new FormData();
-    formData.append('name', user.name);
+    formData.append('fullName', user.name);
     formData.append('email', user.email);
     formData.append('age', user.age);
     formData.append('profileImage', user.profileImage);
@@ -20,7 +20,7 @@ function SignUp() {
         form.reset();
         let response = "";
         try {
-            response = await axios.post('https://user-management-system-apis.vercel.app/api/user/register', formData, {
+            response = await axios.post('http://localhost:8000/api/user/register', formData, {
                 'headers': {
                     'Content-Type': 'multipart/form-data'
                 }

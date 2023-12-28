@@ -9,15 +9,18 @@ const registerUser = async (req, res) => {
         let user = await userService.getUserByEmail(req.body.email);
         if (user) {
             res.status(400).json({ message: responseMessage.USER_ALREADY_EXISTS });
+            logger.error(responseMessage.USER_ALREADY_EXISTS);
         } else {
             const profileImageLocalPath = req.file.path;
             const profileImage = await uploadOnCloudinary(profileImageLocalPath);
             req.body.profileImage = profileImage.url;
             user = await userService.saveUser(req.body);
+            logger.info(responseMessage.USER_REGISTERED);
             return res.status(201).json({ message: responseMessage.USER_REGISTERED, data: user });
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        logger.error(error.message);
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
     }
 }

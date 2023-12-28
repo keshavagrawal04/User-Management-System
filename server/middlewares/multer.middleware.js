@@ -2,9 +2,6 @@ const multer = require('multer');
 
 // FUNCTION : Upload Files In Local Directory
 const storage = multer.diskStorage({
-    destination: (req, file, callBack) => {
-        callBack(null, "./public/temp");
-    },
     filename: (req, file, callBack) => {
         callBack(null, file.originalname);
     }
