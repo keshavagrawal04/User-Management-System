@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import axios from 'axios';
+import { userRegisterQuery } from '../../services/Query';
 
 function SignUp() {
     const [user, setUser] = useState({});
@@ -17,13 +17,14 @@ function SignUp() {
         e.preventDefault();
         const form = document.querySelector('#add-form');
         form.reset();
+        const axiosConfig = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
         let response = "";
         try {
-            response = await axios.post('https://user-management-system-apis.vercel.app/api/user/register', formData, {
-                'headers': {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            response = await userRegisterQuery(formData, axiosConfig);
             toast.success(response.data['message']);
         } catch (error) {
             toast.error(error.response.data['message']);

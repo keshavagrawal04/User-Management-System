@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { userLoginQuery } from '../../services/Query';
 import { AuthContext } from '../AuthContext/authContext';
 
 function Login() {
@@ -13,10 +13,10 @@ function Login() {
         e.preventDefault();
         let response = "";
         try {
-            response = await axios.post("https://user-management-system-apis.vercel.app/api/user/login", {
+            response = await userLoginQuery({
                 email: user.email,
                 password: user.password
-            })
+            });
             setIsLoggedIn(true);
             toast.success(response.data['message']);
             let tokens = JSON.stringify(response.data['tokens'])

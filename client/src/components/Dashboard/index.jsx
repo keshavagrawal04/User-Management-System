@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect, useContext } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext/authContext';
 import Swal from 'sweetalert2'
+import { getUsersDataQuery, userDeleteQuery } from '../../services/Query';
 
 function Dashboard() {
     const { isLoggedIn } = useContext(AuthContext);
@@ -19,7 +19,7 @@ function Dashboard() {
                 toast.error('You Must Be Logged In');
                 navigate('/login');
                 i++;
-            } 
+            }
         } else {
             fetchData();
         }
@@ -35,7 +35,7 @@ function Dashboard() {
         };
         try {
             console.log()
-            response = await axios.get('https://user-management-system-apis.vercel.app/api/user/get/', axiosConfig);
+            response = await getUsersDataQuery(axiosConfig);
             setUsers(response.data.data);
         } catch (error) {
             console.log(error);
@@ -65,7 +65,7 @@ function Dashboard() {
                     }
                 };
                 try {
-                    await axios.delete('https://user-management-system-apis.vercel.app/api/user/delete/' + e.target.id, axiosConfig);
+                    await userDeleteQuery(e.target.id, axiosConfig);
                     Swal.fire({
                         title: "Deleted!",
                         text: "User data has been deleted.",
