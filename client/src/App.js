@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/index';
 import Footer from './components/Footer/index';
 import Dashboard from './components/Dashboard';
 import { AuthProvider } from './components/AuthContext/authContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
