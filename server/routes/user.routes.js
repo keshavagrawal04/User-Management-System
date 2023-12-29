@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { userController } = require('../controllers');
 const { authMiddleware, multerMiddleware } = require('../middlewares');
-const { jwt } = require('../utils');
 
 // ROUTE : User Register
 router.post('/register', multerMiddleware.upload.single('profileImage'), userController.registerUser);
