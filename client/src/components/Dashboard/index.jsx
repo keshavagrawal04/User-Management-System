@@ -97,6 +97,7 @@ function Dashboard() {
                             <caption className="text-white"></caption>
                             <thead>
                                 <tr>
+                                    <th className="text-center" scope="col">Profile</th>
                                     <th scope="col">User Id</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Age</th>
@@ -106,14 +107,17 @@ function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(item => (
-                                    <tr key={item._id}>
-                                        <td>{item._id}</td>
-                                        <td>{item.name}</td>
-                                        <td>{item.age}</td>
-                                        <td>{item.email}</td>
-                                        <td className="text-center"><Link to="#" className="edit text-center" onClick={userUpdate}><i id={item._id} className='fs-5 bx bxs-pencil border p-1 rounded bg-warning text-white'></i></Link></td>
-                                        <td className="text-center"><Link to="#" className="delete" onClick={userDelete}><i id={item._id} className='fs-5 bx bxs-trash border p-1 rounded bg-danger text-white'></i></Link></td>
+                                {users.map(user => (
+                                    <tr key={user._id}>
+                                        <td className="text-center">
+                                            <img alt="profile" src={user.profileImage} className="rounded-2" width="34px" height="34px" />
+                                        </td>
+                                        <td>{user._id}</td>
+                                        <td>{user.fullName}</td>
+                                        <td>{user.age}</td>
+                                        <td>{user.email}</td>
+                                        <td className="text-center"><Link to="#" className="edit text-center" onClick={userUpdate}><i id={user._id} className='fs-5 bx bxs-pencil border p-1 rounded bg-warning text-white'></i></Link></td>
+                                        <td className="text-center"><Link to="#" className="delete" onClick={userDelete}><i id={user._id} className='fs-5 bx bxs-trash border p-1 rounded bg-danger text-white'></i></Link></td>
                                     </tr>
                                 ))}
                             </tbody>
