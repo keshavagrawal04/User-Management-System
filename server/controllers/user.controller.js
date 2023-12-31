@@ -85,7 +85,14 @@ const updateUser = async (req, res) => {
     try {
         let user = await userService.getUserById(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
-        user = userService.updateUser(req.params.id, req.body)
+        console.log(req.body);
+        if (req.file) {
+            console.log(req.file);
+            const profileImageLocalPath = req.file.path;
+            const profileImage = await uploadOnCloudinary(profileImageLocalPath);
+            req.body.profileImage = profileImage.url;
+        }
+        user = userService.updateUser(req.params.id, req.body);
         return res.status(200).json({ message: responseMessage.USER_UPDATED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });

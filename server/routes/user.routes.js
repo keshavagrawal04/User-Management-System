@@ -18,7 +18,7 @@ router.get('/get/:id', authMiddleware.authenticateToken, userController.getUser)
 router.delete('/delete/:id', authMiddleware.authenticateToken, userController.deleteUser);
 
 // ROUTE : User Data Update By Id
-router.patch('/update/:id', authMiddleware.authenticateToken, userController.updateUser);
+router.patch('/update/:id', [authMiddleware.authenticateToken, multerMiddleware.upload.single('profileImage')], userController.updateUser);
 
 // ROUTE : Access Token Refresh
 router.post('/token/refresh', authMiddleware.authenticateToken, userController.accessTokenRefresh);

@@ -2,10 +2,15 @@ import { useState } from 'react';
 import { Modal, Button, Form, Col, Image } from 'react-bootstrap';
 import { FaCamera } from "react-icons/fa";
 
-const Profile = ({ show, setShow, userUpdate, user, setUser }) => {
-    const handleClose = () => setShow(false);
-    const [file, setFile] = useState(user?.profileImage);
-    console.log(file, user?.profileImage);
+const Profile = ({ show, setShow, user, userUpdate }) => {
+    const [filePath, setFilePath] = useState(user?.profileImage);
+    const [payload, setPayload] = useState({});
+
+    const handleClose = () => {
+        setShow(false);
+        setFilePath(user.profileImage);
+    };
+
     return (
         <>
             <Modal show={show} onHide={handleClose}>
@@ -16,18 +21,12 @@ const Profile = ({ show, setShow, userUpdate, user, setUser }) => {
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Col className="d-flex justify-content-center" md={12}>
-                                <Image className="text-center" width="200px" height="200px" src={file??user?.profileImage} roundedCircle />
+                                <Image className="text-center" width="200px" height="200px" src={filePath ?? user?.profileImage} roundedCircle />
                                 <label for="upload">
                                     <FaCamera size={30} />
                                 </label>
-                                <input src={file} type="file" id="upload" style={{ visibility: 'hidden', width: '1px', height: '1px' }} onChange={(e) => {e.preventDefault(); setFile(URL.createObjectURL(e.target.files[0])); setUser({ ...user, profileImage: e.target.files[0] }) }} />
+                                <input src={filePath} type="file" id="upload" style={{ visibility: 'hidden', width: '1px', height: '1px' }} onChange={(e) => { e.preventDefault(); setFilePath(URL.createObjectURL(e.target.files[0])); setPayload({ ...payload, profileImage: e.target.files[0] }) }} />
                             </Col>
-                            <Form.Label>User Id</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={user?._id}
-                                disabled
-                            />
                             <Form.Label>Email Address</Form.Label>
                             <Form.Control
                                 type="email"
@@ -37,12 +36,14 @@ const Profile = ({ show, setShow, userUpdate, user, setUser }) => {
                             <Form.Label>Full Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={user?.fullName}
+                                placeholder={user?.fullName}
+                                onChange={e => setPayload({ ...payload, fullName: e.target.value })}
                             />
                             <Form.Label>Age</Form.Label>
                             <Form.Control
                                 type="number"
-                                value={user?.age}
+                                placeholder={user?.age}
+                                onChange={e => setPayload({ ...payload, age: e.target.value })}
                             />
                         </Form.Group>
                     </Form>
@@ -51,7 +52,7 @@ const Profile = ({ show, setShow, userUpdate, user, setUser }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => { setShow(false); userUpdate(); }}>
+                    <Button variant="primary" onClick={() => { setShow(false); userUpdate(payload); }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

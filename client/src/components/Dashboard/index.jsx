@@ -2,19 +2,18 @@ import React, { useState, useEffect, useContext } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext/authContext';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Swal from 'sweetalert2'
-import { getUsersDataQuery, userDeleteQuery } from '../../services/Query';
+import { getUsersDataQuery, userDeleteQuery, userUpdateQuery } from '../../services/Query';
+import Swal from 'sweetalert2';
 import Profile from '../Profile';
 import UserTable from '../UserTable';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Dashboard() {
     const { isLoggedIn } = useContext(AuthContext);
-    const [users, setUsers] = useState([]);
     const [user, setUser] = useState(null);
+    const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    let tokens;
     let i = 0;
 
     useEffect(() => {
@@ -31,23 +30,18 @@ function Dashboard() {
 
     const fetchData = async () => {
         let response = "";
-        tokens = JSON.parse(localStorage.getItem('tokens'));
+        let tokens = JSON.parse(localStorage.getItem('tokens'));
         const axiosConfig = {
             headers: {
                 'Authorization': `Bearer ${tokens.access}`
             }
         };
         try {
-            console.log()
             response = await getUsersDataQuery(axiosConfig);
             setUsers(response.data.data);
         } catch (error) {
             console.log(error);
         }
-    }
-
-    const userUpdate = async (e) => {
-        e.preventDefault();
     }
 
     const userDelete = async (e) => {
@@ -62,7 +56,7 @@ function Dashboard() {
             confirmButtonText: "Yes, delete it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                tokens = JSON.parse(localStorage.getItem('tokens'));
+                let tokens = JSON.parse(localStorage.getItem('tokens'));
                 const axiosConfig = {
                     headers: {
                         'Authorization': `Bearer ${tokens.access}`
@@ -85,6 +79,33 @@ function Dashboard() {
                 }
             }
         });
+
+    }
+
+    const userUpdate = async (payload) => {
+        const { fullName, age, profileImage } = payload;
+
+        let formData = new FormData();
+
+        if (fullName) formData.append('fullName', fullName);
+        if (age) formData.append('age', age);
+        if (profileImage) formData.append('profileImage', profileImage);
+
+        let response = "";
+        let tokens = JSON.parse(localStorage.getItem('tokens'));
+        const axiosConfig = {
+            headers: {
+                'Authorization': `Bearer ${tokens.access}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        try {
+            response = await userUpdateQuery(user._id, formData, axiosConfig);
+            toast.success(response.data['message']);
+            fetchData();
+        } catch (error) {
+            toast.error(error.response.data['message']);
+        }
     }
 
     return (
@@ -94,8 +115,8 @@ function Dashboard() {
                 autoClose={1000}
                 theme="dark"
             /></div>
-            <UserTable users={users} userDelete={userDelete} setShow={setShow} setUser={setUser} />
-            <Profile show={show} setShow={setShow} userUpdate={userUpdate} user={user} setUser={setUser} />
+            <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} />
+            <Profile show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
         </>
     );
 }
