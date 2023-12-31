@@ -11,6 +11,8 @@ const responseMessage = {
     USERS_DATA_NOT_FOUND: "Users Data Not Found",
     USER_DATA_NOT_FOUND: "User Data Not Found",
     INTERNAL_SERVER_ERROR: "Internal Server Error",
+    RESET_PASSWORD_EMAIL_SEND_SUCCESS: "Password Reset Email Send Successfully,\n Email Is Validated Only For 1 Hour",
+    PASSWORD_RESET_SUCCESS: "Password Successfully Changed"
 }
 
 module.exports = responseMessage;

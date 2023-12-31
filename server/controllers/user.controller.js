@@ -1,5 +1,5 @@
 const { userService } = require('../services');
-const { crypto, jwt, logger } = require('../utils');
+const { crypto, jwt, logger, send } = require('../utils');
 const { responseMessage } = require('../configs');
 const { uploadOnCloudinary, deleteOnCloudinary } = require('../utils');
 
@@ -34,12 +34,13 @@ const loginUser = async (req, res) => {
         let isPasswordValid = crypto.validateHash(req.body.password, user.password.salt, user.password.hash);
         if (!isPasswordValid) return res.status(400).json({ message: responseMessage.PASSWORD_MISMATCH });
 
-        user = { user_id: user._id }
+        user = { userId: user._id }
         const tokens = jwt.generateJWTTokens(user);
         logger.info(responseMessage.USER_LOGGED_IN);
         return res.status(201).json({
             message: responseMessage.USER_LOGGED_IN,
-            tokens: tokens
+            tokens: tokens,
+            userId: user.userId
         });
     } catch (error) {
         logger.error(error.message);
@@ -86,7 +87,6 @@ const updateUser = async (req, res) => {
     try {
         let user = await userService.getUserById(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
-        console.log(req.body);
         if (req.file) {
             const profileImageLocalPath = req.file.path;
             const profileImage = await uploadOnCloudinary(profileImageLocalPath);
@@ -97,6 +97,37 @@ const updateUser = async (req, res) => {
         return res.status(200).json({ message: responseMessage.USER_UPDATED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
+    }
+}
+
+// FUNCTION : Forgot Password Controller
+const forgotPassword = async (req, res) => {
+    try {
+        const email = req.body.email;
+        let user = await userService.getUserByEmail(email);
+        if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
+        user = { userId: user._id, email: email };
+        let forgotPasswordToken = jwt.generateForgotPasswordToken(user);
+        console.log(forgotPasswordToken);
+        let url = `http://localhost:3000/reset-password/${forgotPasswordToken}`;
+        console.log(url);
+        await send(email, 'Password Reset Email', url);
+        return res.status(200).json({ message: responseMessage.RESET_PASSWORD_EMAIL_SEND_SUCCESS });
+    } catch (error) {
+        return res.status(400).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+// FUNCTION : Reset Password
+const resetPassword = async (req, res) => {
+    try {
+        let user = await userService.getUserById(req.user.userId);
+        if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
+        req.body.password = await crypto.generateHash(req.body.password);
+        user = userService.updateUser(req.user.userId, req.body);
+        return res.status(200).json({ message: responseMessage.PASSWORD_RESET_SUCCESS });
+    } catch (error) {
+        return res.status(400).json({ message: "Internal Server Error", error: error.message });
     }
 }
 
@@ -126,5 +157,7 @@ module.exports = {
     getUser,
     deleteUser,
     updateUser,
-    accessTokenRefresh
+    accessTokenRefresh,
+    forgotPassword,
+    resetPassword
 }

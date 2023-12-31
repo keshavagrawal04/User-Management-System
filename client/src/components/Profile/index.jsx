@@ -22,7 +22,7 @@ const Profile = ({ show, setShow, user, userUpdate }) => {
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Col className="d-flex justify-content-center" md={12}>
                                 <Image className="text-center" width="200px" height="200px" src={filePath ?? user?.profileImage} roundedCircle />
-                                <label for="upload">
+                                <label htmlFor="upload">
                                     <FaCamera size={30} />
                                 </label>
                                 <input src={filePath} type="file" id="upload" style={{ visibility: 'hidden', width: '1px', height: '1px' }} onChange={(e) => { e.preventDefault(); setFilePath(URL.createObjectURL(e.target.files[0])); setPayload({ ...payload, profileImage: e.target.files[0] }) }} />
@@ -52,7 +52,7 @@ const Profile = ({ show, setShow, user, userUpdate }) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => { setShow(false); userUpdate(payload); }}>
+                    <Button style={{ width: '150px' }} variant="primary" onClick={() => { setShow(false); userUpdate(payload); }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

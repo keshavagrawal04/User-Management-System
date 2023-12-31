@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext/authContext';
 import { getUsersDataQuery, userDeleteQuery, userUpdateQuery } from '../../services/Query';
@@ -14,19 +14,15 @@ function Dashboard() {
     const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
-    let i = 0;
 
     useEffect(() => {
         if (!isLoggedIn) {
-            if (i === 0) {
-                toast.error('You Must Be Logged In');
-                navigate('/login');
-                i++;
-            }
+            navigate('/login');
+            toast.error('You Must Be Logged In');
         } else {
             fetchData();
         }
-    }, []);
+    });
 
     const fetchData = async () => {
         let response = "";
@@ -110,11 +106,6 @@ function Dashboard() {
 
     return (
         <>
-            <div><Toaster
-                position="top-center"
-                autoClose={1000}
-                theme="dark"
-            /></div>
             <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} />
             <Profile show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
         </>

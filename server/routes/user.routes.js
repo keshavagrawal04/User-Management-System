@@ -20,6 +20,12 @@ router.delete('/delete/:id', authMiddleware.authenticateToken, userController.de
 // ROUTE : User Data Update By Id
 router.patch('/update/:id', [authMiddleware.authenticateToken, multerMiddleware.upload.single('profileImage')], userController.updateUser);
 
+// ROUTE : Forgot Password
+router.post('/forgot-password', userController.forgotPassword);
+
+// ROUTE : Password Reset
+router.post('/reset-password', authMiddleware.authenticateToken, userController.resetPassword);
+
 // ROUTE : Access Token Refresh
 router.post('/token/refresh', authMiddleware.authenticateToken, userController.accessTokenRefresh);
 

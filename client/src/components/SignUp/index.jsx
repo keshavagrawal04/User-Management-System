@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { userRegisterQuery } from '../../services/Query';
 
 function SignUp() {
@@ -33,15 +33,15 @@ function SignUp() {
 
     return (
         <>
-            <div><Toaster
+            {/* <div><Toaster
                 position="top-center"
                 autoClose={1000}
                 theme="dark"
-            /></div>
+            /></div> */}
             <div className="container mt-4 p-4">
                 <div className="row d-flex justify-content-center">
                     <div className="col-xl-5 col-lg-5 mt-lg-5 mt-xl-0 col-md-8 col-sm-12">
-                        <img src="./images/signup.jpg" alt="signup" width="100%" />
+                        <img src="https://res.cloudinary.com/di5uhy426/image/upload/v1704016525/dre67wynkhy1jaktx5pm.jpg" alt="signup" width="100%" />
                     </div>
                     <form id="add-form" className="col-xl-5 col-lg-5 col-md-8 col-sm-12 d-flex flex-column align-items-center p-xl-5 pt-xl-0 p-sm-4 pt-4" onSubmit={handleSubmit}>
                         <h2 className="pt-2">Sign Up</h2>
@@ -62,7 +62,7 @@ function SignUp() {
                             <input onChange={e => setUser({ ...user, password: e.target.value })} type="password" className="form-control fs-6" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required />
                         </div>
                         <div className="input-group mb-3">
-                            <input onChange={e => setUser({ ...user, profileImage: e.target.files[0] })} type="file" className="form-control fs-6" id="inputGroupFile02" />
+                            <input onChange={e => setUser({ ...user, profileImage: e.target.files[0] })} type="file" className="form-control fs-6" id="inputGroupFile02" required />
                         </div>
                         <button className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">SignUp</button>
                     </form>

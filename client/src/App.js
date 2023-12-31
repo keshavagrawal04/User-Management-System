@@ -6,6 +6,8 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import { AuthProvider } from './components/AuthContext/authContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,6 +20,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
         <Footer />

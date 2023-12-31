@@ -14,6 +14,17 @@ const generateJWTTokens = (payload) => {
     }
 }
 
+const generateForgotPasswordToken = (payload) => {
+    try {
+        const forgotPasswordToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        return forgotPasswordToken;
+    } catch (error) {
+        console.log(error.message);
+        return false;
+    }
+}
+
 module.exports = {
-    generateJWTTokens
+    generateJWTTokens,
+    generateForgotPasswordToken
 }

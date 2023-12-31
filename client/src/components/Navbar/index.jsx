@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Image } from 'react-bootstrap';
 import { AuthContext } from '../AuthContext/authContext';
 
 const NavBar = () => {
@@ -11,7 +11,7 @@ const NavBar = () => {
         toast.success("User Logged Out Successfully");
         localStorage.clear();
     }
-    
+
     return (
         <>
             <Toaster
@@ -27,12 +27,16 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
                 <Navbar.Collapse id="basic-navbar-nav" className="p-2">
+                    <Nav>
+                        <Link to="/dashboard" className="btn btn-outline-warning" style={{ width: '120px' }}>Dashboard</Link>
+                    </Nav>
                     <Nav className="d-flex gap-2 ms-auto">
                         <Link to="/signup" id="sign-in" className="btn btn-outline-warning">Sign Up</Link>
                         {isLoggedIn
                             ? (<Link to="/login" onClick={Logout} className="btn btn-outline-success my-2 my-sm-0">Logout</Link>)
                             : (<Link to="/login" className="btn btn-outline-success my-2 my-sm-0">Login</Link>)
                         }
+                        <Image width="42px" height="42px" src="https://res.cloudinary.com/di5uhy426/image/upload/v1704016524/rdmmfgysbjrgzlhrymo3.png" roundedCircle />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
