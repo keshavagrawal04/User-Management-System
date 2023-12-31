@@ -108,9 +108,7 @@ const forgotPassword = async (req, res) => {
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
         user = { userId: user._id, email: email };
         let forgotPasswordToken = jwt.generateForgotPasswordToken(user);
-        console.log(forgotPasswordToken);
         let url = `http://localhost:3000/reset-password/${forgotPasswordToken}`;
-        console.log(url);
         await send(email, 'Password Reset Email', url);
         return res.status(200).json({ message: responseMessage.RESET_PASSWORD_EMAIL_SEND_SUCCESS });
     } catch (error) {

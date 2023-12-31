@@ -19,7 +19,6 @@ const generateForgotPasswordToken = (payload) => {
         const forgotPasswordToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
         return forgotPasswordToken;
     } catch (error) {
-        console.log(error.message);
         return false;
     }
 }

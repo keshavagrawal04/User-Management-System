@@ -28,7 +28,7 @@ const userDeleteQuery = async (userId, config) => {
 }
 
 const userUpdateQuery = async (userId, payload, config) => {
-    try {   
+    try {
         let response = await axios.patch(`${BASE_URL_LOCAL}/api/user/update/${userId}`, payload, config);
         return response;
     } catch (error) {

@@ -27,7 +27,10 @@ const ResetPassword = () => {
             }
         } catch (error) {
             navigate('/login');
-            toast.error(error.response.data['message']);
+            if (error?.response) {
+                return toast.error(error.response.data['message']);
+            }
+            toast.error(error.message);
         }
     }
 

@@ -28,7 +28,10 @@ function Login() {
                 navigate('/dashboard');
             }, 3000);
         } catch (error) {
-            toast.error(error.response.data['message']);
+            if (error?.response) {
+                return toast.error(error.response.data['message']);
+            }
+            toast.error(error.message);
         }
     }
 

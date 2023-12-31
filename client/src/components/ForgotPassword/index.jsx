@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import { Alert } from 'react-bootstrap';
 import { forgotPasswordQuery } from '../../services/Query';
 
@@ -10,13 +9,18 @@ const ForgotPassword = () => {
 
     const buttonHandler = async (e) => {
         e.preventDefault();
-        setShowAlert(true);
         let response = "";
         try {
             response = await forgotPasswordQuery({ email: email });
             setAlert({ message: response.data['message'], variant: "success" });
+            setShowAlert(true);
         } catch (error) {
-            setAlert({ message: error.response.data['message'], variant: "warning" });
+            if (error?.response) {
+                setShowAlert(true);
+                return setAlert({ message: error?.response?.data['message'], variant: "warning" });
+            }
+            setShowAlert(true);
+            setAlert({ message: error.message, variant: "warning" });
         }
     }
 

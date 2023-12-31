@@ -27,7 +27,10 @@ function SignUp() {
             response = await userRegisterQuery(formData, axiosConfig);
             toast.success(response.data['message']);
         } catch (error) {
-            toast.error(error.response.data['message']);
+            if (error?.response) {
+                return toast.error(error.response.data['message']);
+            }
+            toast.error(error.message);
         }
     }
 
