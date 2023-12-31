@@ -1,7 +1,7 @@
 const database = require('./database.util');
 const jwt = require('./jwt.util');
 const crypto = require('./crypto.util');
-const uploadOnCloudinary = require('./cloudinary.util');
+const { uploadOnCloudinary, deleteOnCloudinary } = require('./cloudinary.util');
 const logger = require('./logger.util');
 
 module.exports = {
@@ -9,5 +9,6 @@ module.exports = {
     jwt,
     crypto,
     uploadOnCloudinary,
+    deleteOnCloudinary,
     logger
 }

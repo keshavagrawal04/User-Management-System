@@ -1,4 +1,3 @@
-const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 
 // CONFIGURATION : Cloudinary Configuration
@@ -15,8 +14,28 @@ const uploadOnCloudinary = async (localFilePath) => {
         const response = await cloudinary.uploader.upload(localFilePath, { resource_type: "auto" });
         return response;
     } catch (error) {
-        return null;
+        throw error;
     }
 }
 
-module.exports = uploadOnCloudinary;
+// FUNCTION : Files Deletion On Cloudinary Server
+const deleteOnCloudinary = async (url) => {
+    try {
+        if (!url) return null;
+        const publicId = getPublicId(url);
+        const response = await cloudinary.uploader.destroy(publicId);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+// FUNCTION : Get publicId From Url
+const getPublicId = (url) => {
+    let parts = url.split('/');
+    let fileName = parts.pop();
+    let publicId = fileName.split('.')[0];
+    return publicId;
+}
+
+module.exports = { uploadOnCloudinary, deleteOnCloudinary };

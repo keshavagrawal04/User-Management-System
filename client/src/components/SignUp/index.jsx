@@ -38,7 +38,7 @@ function SignUp() {
                 autoClose={1000}
                 theme="dark"
             /></div>
-            <div className="container mt-5 p-4">
+            <div className="container mt-4 p-4">
                 <div className="row d-flex justify-content-center">
                     <div className="col-xl-5 col-lg-5 mt-lg-5 mt-xl-0 col-md-8 col-sm-12">
                         <img src="./images/signup.jpg" alt="signup" width="100%" />

@@ -1,7 +1,7 @@
 const { userService } = require('../services');
 const { crypto, jwt, logger } = require('../utils');
 const { responseMessage } = require('../configs');
-const { uploadOnCloudinary } = require('../utils');
+const { uploadOnCloudinary, deleteOnCloudinary } = require('../utils');
 
 // FUNCTION : User Register
 const registerUser = async (req, res) => {
@@ -74,6 +74,7 @@ const deleteUser = async (req, res) => {
     try {
         const user = await userService.deleteUser(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
+        await deleteOnCloudinary(user.profileImage);
         return res.status(200).json({ message: responseMessage.USER_DELETED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
@@ -87,9 +88,9 @@ const updateUser = async (req, res) => {
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
         console.log(req.body);
         if (req.file) {
-            console.log(req.file);
             const profileImageLocalPath = req.file.path;
             const profileImage = await uploadOnCloudinary(profileImageLocalPath);
+            await deleteOnCloudinary(user.profileImage);
             req.body.profileImage = profileImage.url;
         }
         user = userService.updateUser(req.params.id, req.body);
