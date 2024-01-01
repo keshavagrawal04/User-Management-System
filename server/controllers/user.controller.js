@@ -19,7 +19,6 @@ const registerUser = async (req, res) => {
             return res.status(201).json({ message: responseMessage.USER_REGISTERED, data: user });
         }
     } catch (error) {
-        console.log(error);
         logger.error(error.message);
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
     }
