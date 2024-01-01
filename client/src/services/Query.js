@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "https://user-management-system-apis.vercel.app";
 const userRegisterQuery = async (payload, config) => {
     try {
         let response = await axios.post(`${BASE_URL}/api/user/register`, payload, config);
