@@ -1,16 +1,18 @@
 import { useState, useContext } from 'react';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { userLoginQuery } from '../../services/Query';
 import { AuthContext } from '../AuthContext/authContext';
-import { Link } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 
 function Login() {
     const { setIsLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
+        setLoading(true);
         e.preventDefault();
         let response = "";
         try {
@@ -19,15 +21,15 @@ function Login() {
                 password: user.password
             });
             setIsLoggedIn(true);
+            setLoading(true);
             toast.success(response.data['message']);
             let tokens = JSON.stringify(response.data['tokens']);
             let userId = response.data['userId'];
             localStorage.setItem('tokens', tokens);
             localStorage.setItem('userId', userId);
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 3000);
+            navigate('/dashboard');
         } catch (error) {
+            setLoading(false);
             if (error?.response) {
                 return toast.error(error.response.data['message']);
             }
@@ -54,7 +56,19 @@ function Login() {
                         <div className="input-group text-right">
                             <Link to="/forgot-password" className="text-decoration-none text-black">Forgot Password ?</Link>
                         </div>
-                        <button className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">Login</button>
+                        <button className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">
+                            {loading ? (
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />
+                            ) : (
+                                'Login'
+                            )}
+                        </button>
                     </form>
                 </div>
             </div>

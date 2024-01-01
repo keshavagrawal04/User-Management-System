@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Col, Image } from 'react-bootstrap';
-import { FaCamera } from "react-icons/fa";
 
 const Profile = ({ show, setShow, user, userUpdate }) => {
     const [filePath, setFilePath] = useState(user?.profileImage);
@@ -21,10 +20,9 @@ const Profile = ({ show, setShow, user, userUpdate }) => {
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Col className="d-flex justify-content-center" md={12}>
-                                <Image className="text-center" width="200px" height="200px" src={filePath ?? user?.profileImage} roundedCircle />
-                                <label htmlFor="upload">
-                                    <FaCamera size={30} />
-                                </label>
+                                <Form.Label htmlFor="upload" className="border rounded-circle" style={{ cursor: 'pointer' }}>
+                                    <Image className="text-center" width="200px" height="200px" src={filePath ?? user?.profileImage} roundedCircle />
+                                </Form.Label>
                                 <input src={filePath} type="file" id="upload" style={{ visibility: 'hidden', width: '1px', height: '1px' }} onChange={(e) => { e.preventDefault(); setFilePath(URL.createObjectURL(e.target.files[0])); setPayload({ ...payload, profileImage: e.target.files[0] }) }} />
                             </Col>
                             <Form.Label>Email Address</Form.Label>

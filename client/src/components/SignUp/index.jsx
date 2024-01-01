@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { userRegisterQuery } from '../../services/Query';
+import Spinner from 'react-bootstrap/Spinner';
 
 function SignUp() {
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     let formData = new FormData();
     formData.append('fullName', user.name);
@@ -15,6 +19,8 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+
         const form = document.querySelector('#add-form');
         form.reset();
         const axiosConfig = {
@@ -26,7 +32,10 @@ function SignUp() {
         try {
             response = await userRegisterQuery(formData, axiosConfig);
             toast.success(response.data['message']);
+            setLoading(false);
+            navigate('/login');
         } catch (error) {
+            setLoading(false);
             if (error?.response) {
                 return toast.error(error.response.data['message']);
             }
@@ -36,11 +45,6 @@ function SignUp() {
 
     return (
         <>
-            {/* <div><Toaster
-                position="top-center"
-                autoClose={1000}
-                theme="dark"
-            /></div> */}
             <div className="container mt-4 p-4">
                 <div className="row d-flex justify-content-center">
                     <div className="col-xl-5 col-lg-5 mt-lg-5 mt-xl-0 col-md-8 col-sm-12">
@@ -67,7 +71,19 @@ function SignUp() {
                         <div className="input-group mb-3">
                             <input onChange={e => setUser({ ...user, profileImage: e.target.files[0] })} type="file" className="form-control fs-6" id="inputGroupFile02" required />
                         </div>
-                        <button className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">SignUp</button>
+                        <button className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">
+                            {loading ? (
+                                <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                />
+                            ) : (
+                                'SignUp'
+                            )}
+                        </button>
                     </form>
                 </div>
             </div>
