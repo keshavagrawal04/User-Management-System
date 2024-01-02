@@ -61,8 +61,7 @@ const Dashboard = () => {
         }
     }
 
-    const userDelete = async (e) => {
-        e.preventDefault();
+    const userDelete = async (userId, role = 'Admin') => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -80,21 +79,16 @@ const Dashboard = () => {
                     }
                 };
                 try {
-                    await userDeleteQuery(e.target.id, axiosConfig);
-                    Swal.fire({
+                    await userDeleteQuery(userId, axiosConfig);
+                    await Swal.fire({
                         title: "Deleted!",
-                        text: "User data has been deleted.",
-                        icon: "success"
+                        text: "User Account has been deleted.",
+                        icon: "success",
+                        footer: 'Click OK To Redirect'
                     });
-                    setUser(null);
-                    if (!user) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: "Your Account Is Deleted",
-                            footer: '<Link to="/signup" className="btn btn-success">Sign Up</Link>'
-                        });
-                    }
+                    (role == 'Admin')
+                        ? fetchData()
+                        : navigate('/signup')
                 } catch (error) {
                     Swal.fire({
                         title: "Error",
@@ -127,13 +121,13 @@ const Dashboard = () => {
         try {
             response = await userUpdateQuery(user._id, formData, axiosConfig);
             toast.success(response.data['message']);
+            getUserData();
             fetchData();
         } catch (error) {
             toast.error(error.response.data['message']);
         }
     }
 
-    console.log(loading)
     return (loading)
         ? (
             <div className="container mt-5 d-flex justify-content-center">

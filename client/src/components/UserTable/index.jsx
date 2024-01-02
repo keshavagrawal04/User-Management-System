@@ -34,7 +34,7 @@ const UserTable = ({ setShow, setUser, users, userDelete }) => {
                                         <td>{user.age}</td>
                                         <td>{user.email}</td>
                                         <td className="text-center"><Link to="#" className="edit text-center" onClick={() => { setShow(true); setUser(user); }}><i id={user._id} className='fs-5 bx bxs-pencil border p-1 rounded bg-warning text-white'></i></Link></td>
-                                        <td className="text-center"><Link to="#" className="delete" onClick={userDelete}><i id={user._id} className='fs-5 bx bxs-trash border p-1 rounded bg-danger text-white'></i></Link></td>
+                                        <td className="text-center"><Link to="#" className="delete" onClick={() => userDelete(user._id, "Admin")}><i className='fs-5 bx bxs-trash border p-1 rounded bg-danger text-white'></i></Link></td>
                                     </tr>
                                 ))}
                             </tbody>

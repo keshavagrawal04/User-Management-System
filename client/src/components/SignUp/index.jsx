@@ -67,7 +67,7 @@ const SignUp = () => {
                             <input onChange={e => setUser({ ...user, age: e.target.value })} type="number" className="form-control fs-6" placeholder="Age" aria-label="Age" aria-describedby="basic-addon1" required />
                         </div>
                         <div className="input-group mb-3">
-                            <input onChange={e => setUser({ ...user, password: e.target.value })} type="password" className="form-control fs-6" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required />
+                            <input onChange={e => setUser({ ...user, password: e.target.value })} type="password" className="form-control fs-6" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required autoComplete='auto' />
                         </div>
                         <div className="input-group mb-3">
                             <input onChange={e => setUser({ ...user, profileImage: e.target.files[0] })} type="file" className="form-control fs-6" id="inputGroupFile02" required />

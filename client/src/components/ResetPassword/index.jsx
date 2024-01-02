@@ -46,10 +46,10 @@ const ResetPassword = () => {
                         <h2 className="pt-2">Reset Password</h2>
                         <h4 className="mb-5">Reset Your Password</h4>
                         <div className="input-group mb-3">
-                            <input onChange={e => setPassword(e.target.value)} type="password" className="form-control fs-6 outline-none" placeholder="Enter New Password" aria-label="Password" aria-describedby="basic-addon1" required />
+                            <input onChange={e => setPassword(e.target.value)} type="password" className="form-control fs-6 outline-none" placeholder="Enter New Password" aria-label="Password" aria-describedby="basic-addon1" required autocomplete='auto' />
                         </div>
                         <div className="input-group mb-3">
-                            <input onChange={e => setConfirmPassword(e.target.value)} type="password" className="form-control fs-6 outline-none" placeholder="Confirm New Password" aria-label="Confirm Password" aria-describedby="basic-addon1" required />
+                            <input onChange={e => setConfirmPassword(e.target.value)} type="password" className="form-control fs-6 outline-none" placeholder="Confirm New Password" aria-label="Confirm Password" aria-describedby="basic-addon1" required autocomplete='auto' />
                         </div>
                         <button style={{ width: "100%" }} className="btn btn-primary fs-6 p-2 mt-2 px-4" type="submit">Reset Password</button>
                     </form>
