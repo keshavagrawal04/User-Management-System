@@ -34,7 +34,7 @@ const Profile = ({ user, userDelete, setShow }) => {
                         <button style={{ width: '150px' }} className="btn btn-success" onClick={() => setShow(true)}>
                             Edit Profile
                         </button>
-                        <button style={{ width: '150px' }} className="btn btn-danger" onClick={() => userDelete(user.user_id, "Patient")}>
+                        <button style={{ width: '150px' }} className="btn btn-danger" onClick={() => userDelete(user._id, "Patient")}>
                             Delete Account
                         </button>
                     </div>
