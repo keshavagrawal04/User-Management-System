@@ -107,7 +107,7 @@ const forgotPassword = async (req, res) => {
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
         user = { userId: user._id, email: email };
         let forgotPasswordToken = jwt.generateForgotPasswordToken(user);
-        let url = `http://localhost:3000/reset-password/${forgotPasswordToken}`;
+        let url = `https://user-management-system-two.vercel.app/reset-password/${forgotPasswordToken}`;
         await send(email, 'Password Reset Email', url);
         return res.status(200).json({ message: responseMessage.RESET_PASSWORD_EMAIL_SEND_SUCCESS });
     } catch (error) {
