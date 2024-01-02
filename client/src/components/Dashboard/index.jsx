@@ -9,7 +9,7 @@ import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Dashboard = () => {
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
@@ -88,7 +88,7 @@ const Dashboard = () => {
                     });
                     (role == 'Admin')
                         ? fetchData()
-                        : navigate('/signup')
+                        : navigate('/signup'); setIsLoggedIn(false);
                 } catch (error) {
                     Swal.fire({
                         title: "Error",
