@@ -9,6 +9,7 @@ import ResetPassword from './ResetPassword';
 import PageNotFound from './PageNotFound';
 import UserTable from './UserTable';
 import ProfileUpdateModal from './ProfileUpdateModal';
+import Profile from './Profile';
 
 export {
     Home,
@@ -22,4 +23,5 @@ export {
     PageNotFound,
     UserTable,
     ProfileUpdateModal,
+    Profile
 }

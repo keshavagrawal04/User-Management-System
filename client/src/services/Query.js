@@ -45,6 +45,15 @@ const getUsersDataQuery = async (config) => {
     }
 }
 
+const getUserByIdQuery = async (userId, config) => {
+    try {
+        let response = await axios.get(`${BASE_URL}/api/user/get/${userId}`, config);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const forgotPasswordQuery = async (email) => {
     try {
         let response = await axios.post(`${BASE_URL}/api/user/forgot-password`, email);
@@ -63,4 +72,4 @@ const resetPasswordQuery = async (payload, config) => {
     }
 }
 
-export { userRegisterQuery, userLoginQuery, getUsersDataQuery, userDeleteQuery, userUpdateQuery, forgotPasswordQuery, resetPasswordQuery }
+export { userRegisterQuery, userLoginQuery, getUsersDataQuery, getUserByIdQuery, userDeleteQuery, userUpdateQuery, forgotPasswordQuery, resetPasswordQuery }

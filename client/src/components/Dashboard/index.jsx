@@ -2,14 +2,16 @@ import { useState, useEffect, useContext } from 'react';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext/authContext';
-import { getUsersDataQuery, userDeleteQuery, userUpdateQuery } from '../../services/Query';
+import { getUsersDataQuery, userDeleteQuery, userUpdateQuery, getUserByIdQuery } from '../../services/Query';
 import Swal from 'sweetalert2';
-import { UserTable, ProfileUpdateModal } from '../index';
+import { UserTable, ProfileUpdateModal, Profile } from '../index';
+import { Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Dashboard = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
@@ -19,9 +21,29 @@ const Dashboard = () => {
             navigate('/login');
             toast.error('You Must Be Logged In');
         } else {
-            fetchData();
+            // fetchData();
+            getUserData();
         }
     }, [isLoggedIn, navigate]);
+
+    const getUserData = async () => {
+        setLoading(true);
+        let response = "";
+        let userId = localStorage.getItem('userId');
+        let tokens = JSON.parse(localStorage.getItem('tokens'));
+        const axiosConfig = {
+            headers: {
+                'Authorization': `Bearer ${tokens.access}`
+            }
+        };
+        try {
+            response = await getUserByIdQuery(userId, axiosConfig);
+            setUser(response.data.data);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const fetchData = async () => {
         let response = "";
@@ -64,7 +86,14 @@ const Dashboard = () => {
                         text: "User data has been deleted.",
                         icon: "success"
                     });
-                    fetchData();
+                    if (!user) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Your Account Is Deleted",
+                            footer: '<Link to="/signup" className="btn btn-success">Sign Up</Link>'
+                        });
+                    }
                 } catch (error) {
                     Swal.fire({
                         title: "Error",
@@ -103,12 +132,30 @@ const Dashboard = () => {
         }
     }
 
-    return (
-        <>
-            <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} />
-            <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
-        </>
-    );
+    console.log(loading)
+    return (loading)
+        ? (
+            <div className="container mt-5 d-flex justify-content-center">
+                <div className="row d-flex justify-content-center mt-5">
+                    <div className="col-xl-5 col-lg-5 mt-lg-5 mt-xl-0 col-md-8 col-sm-12">
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="xl"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                    </div>
+                </div>
+            </div >
+        )
+        : (
+            <>
+                {/* <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} /> */}
+                <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
+                <Profile user={user} userDelete={userDelete} setShow={setShow} />
+            </>
+        );
 }
 
 export default Dashboard;
