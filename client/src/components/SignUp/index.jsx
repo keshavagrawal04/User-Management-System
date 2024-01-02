@@ -5,7 +5,7 @@ import { userRegisterQuery } from '../../services/Query';
 import Spinner from 'react-bootstrap/Spinner';
 import { signUpSrc } from '../../assets/images';
 
-function SignUp() {
+const SignUp = () => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();

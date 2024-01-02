@@ -47,10 +47,10 @@ const Profile = ({ show, setShow, user, userUpdate }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="danger" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button style={{ width: '150px' }} variant="primary" onClick={() => { setShow(false); userUpdate(payload); }}>
+                    <Button style={{ width: '150px' }} variant="success" onClick={() => { setShow(false); userUpdate(payload); }}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

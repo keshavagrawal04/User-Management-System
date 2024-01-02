@@ -1,6 +1,6 @@
 import { homeSrc } from '../../assets/images';
 
-function Home() {
+const Home = () => {
     return (
         <div className="container mt-5 d-flex justify-content-center">
             <div className="row d-flex justify-content-center mt-5">

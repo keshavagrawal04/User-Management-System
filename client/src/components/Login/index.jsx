@@ -6,7 +6,7 @@ import { AuthContext } from '../AuthContext/authContext';
 import { Spinner } from 'react-bootstrap';
 import { loginSrc } from '../../assets/images';
 
-function Login() {
+const Login = () => {
     const { setIsLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(false);

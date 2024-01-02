@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext/authContext';
 import { getUsersDataQuery, userDeleteQuery, userUpdateQuery } from '../../services/Query';
 import Swal from 'sweetalert2';
-import Profile from '../Profile';
-import UserTable from '../UserTable';
+import { UserTable, ProfileUpdateModal } from '../index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Dashboard() {
+const Dashboard = () => {
     const { isLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
@@ -107,7 +106,7 @@ function Dashboard() {
     return (
         <>
             <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} />
-            <Profile show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
+            <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
         </>
     );
 }

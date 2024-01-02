@@ -1,12 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import SignUp from './components/SignUp';
-import Login from './components/Login';
-import NavBar from './components/NavBar';
-import Footer from './components/Footer';
-import Dashboard from './components/Dashboard';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
+import { Home, SignUp, Login, ForgotPassword, ResetPassword, Dashboard, PageNotFound, Footer, NavBar } from './components';
 import { AuthProvider } from './components/AuthContext/authContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,6 +15,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:resetPasswordToken" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </AuthProvider>

@@ -9,8 +9,9 @@ body {
 
 * {
   font-family: 'Poppins';
+  transition: all 0.3s linear;
 }
 
 .btn {
-  width: 100px;
+  width: 120px;
 }
