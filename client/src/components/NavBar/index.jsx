@@ -7,7 +7,7 @@ import { avatarSrc } from '../../assets/images';
 
 const NavBar = () => {
     let { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-    const Logout = (e) => {
+    const Logout = () => {
         setIsLoggedIn(false);
         toast.success("User Logged Out Successfully");
         localStorage.clear();
