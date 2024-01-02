@@ -86,6 +86,7 @@ const Dashboard = () => {
                         text: "User data has been deleted.",
                         icon: "success"
                     });
+                    setUser(null);
                     if (!user) {
                         Swal.fire({
                             icon: "error",
