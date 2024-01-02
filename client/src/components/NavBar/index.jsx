@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { Navbar, Nav, Image } from 'react-bootstrap';
 import { AuthContext } from '../AuthContext/authContext';
+import { avatarSrc } from '../../assets/images';
 
 const NavBar = () => {
     let { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -36,7 +37,7 @@ const NavBar = () => {
                             ? (<Link to="/login" onClick={Logout} className="btn btn-outline-success my-2 my-sm-0">Logout</Link>)
                             : (<Link to="/login" className="btn btn-outline-success my-2 my-sm-0">Login</Link>)
                         }
-                        <Image width="42px" height="42px" src="https://res.cloudinary.com/di5uhy426/image/upload/v1704016524/rdmmfgysbjrgzlhrymo3.png" roundedCircle />
+                        <Image width="42px" height="42px" src={avatarSrc} roundedCircle />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

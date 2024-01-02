@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { resetPasswordQuery } from '../../services/Query';
+import { resetPasswordSrc } from '../../assets/images';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState();
@@ -39,7 +40,7 @@ const ResetPassword = () => {
             <div className="container mt-4 p-4">
                 <div className="row d-flex justify-content-center">
                     <div className="col-xl-5 col-lg-5 mt-lg-5 mt-xl-0 col-md-8 col-sm-12">
-                        <img src="https://res.cloudinary.com/di5uhy426/image/upload/v1704176029/pkd3kfwcsqly1wtocgvt.jpg" alt="signup" width="100%" />
+                        <img src={resetPasswordSrc} alt="signup" width="100%" />
                     </div>
                     <form id="add-form" className="col-xl-5 col-lg-5 col-md-8 col-sm-12 d-flex flex-column align-items-center p-xl-5 p-sm-4 pt-4" onSubmit={buttonHandler}>
                         <h2 className="pt-2">Reset Password</h2>
