@@ -21,8 +21,9 @@ const Dashboard = () => {
             navigate('/login');
             toast.error('You Must Be Logged In');
         } else {
-            // fetchData();
-            getUserData();
+            (user.role == 'admin')
+                ? fetchData()
+                : getUserData();
         }
     }, [isLoggedIn, navigate]);
 
@@ -61,7 +62,7 @@ const Dashboard = () => {
         }
     }
 
-    const userDelete = async (userId, role = 'Admin') => {
+    const userDelete = async (userId) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -86,7 +87,7 @@ const Dashboard = () => {
                         icon: "success",
                         footer: 'Click OK To Redirect'
                     });
-                    (role == 'Admin')
+                    (user.role == 'admin')
                         ? fetchData()
                         : navigate('/signup'); setIsLoggedIn(false);
                 } catch (error) {
@@ -146,9 +147,17 @@ const Dashboard = () => {
         )
         : (
             <>
-                {/* <UserTable setShow={setShow} setUser={setUser} users={users} userDelete={userDelete} /> */}
-                <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
-                <Profile user={user} userDelete={userDelete} setShow={setShow} />
+                {user.role == 'admin'
+                    ?
+                    <>
+                        <UserTable setShow users userDelete />
+                    </>
+                    :
+                    <>
+                        <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
+                        <Profile user={user} userDelete={userDelete} setShow={setShow} />
+                    </>
+                }
             </>
         );
 }
