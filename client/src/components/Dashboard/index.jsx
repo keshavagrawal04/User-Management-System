@@ -21,9 +21,8 @@ const Dashboard = () => {
             navigate('/login');
             toast.error('You Must Be Logged In');
         } else {
-            (user.role == 'admin')
-                ? fetchData()
-                : getUserData();
+            getUserData();
+            fetchData();
         }
     }, [isLoggedIn, navigate]);
 
@@ -81,19 +80,28 @@ const Dashboard = () => {
                 };
                 try {
                     await userDeleteQuery(userId, axiosConfig);
+                    console.log(user.role);
                     await Swal.fire({
                         title: "Deleted!",
                         text: "User Account has been deleted.",
                         icon: "success",
-                        footer: 'Click OK To Redirect'
                     });
-                    (user.role == 'admin')
-                        ? fetchData()
-                        : navigate('/signup'); setIsLoggedIn(false);
+                    if (user.role == 'admin') {
+                        fetchData();
+                    } else {
+                        navigate('/signup'); setIsLoggedIn(false);
+                    }
                 } catch (error) {
+                    if (error?.response) {
+                        return Swal.fire({
+                            title: "Error",
+                            text: error.response.data['message'],
+                            icon: "warning"
+                        });
+                    }
                     Swal.fire({
                         title: "Error",
-                        text: error.response.data['message'],
+                        text: error.message,
                         icon: "warning"
                     });
                 }
@@ -147,10 +155,12 @@ const Dashboard = () => {
         )
         : (
             <>
+                {console.log(user.role)}
                 {user.role == 'admin'
                     ?
                     <>
-                        <UserTable setShow users userDelete />
+                        <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
+                        <UserTable setShow={setShow} users={users} userDelete={userDelete} />
                     </>
                     :
                     <>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Col, Image } from 'react-bootstrap';
 
-const Profile = ({ show, setShow, user, userUpdate }) => {
+const ProfileUpdateModal = ({ show, setShow, user, userUpdate }) => {
     const [filePath, setFilePath] = useState(user?.profileImage);
     const [payload, setPayload] = useState({});
 
@@ -59,4 +59,4 @@ const Profile = ({ show, setShow, user, userUpdate }) => {
     );
 }
 
-export default Profile;
+export default ProfileUpdateModal;
