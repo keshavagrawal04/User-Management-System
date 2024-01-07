@@ -9,7 +9,7 @@ const UserTable = ({ setShow, setUser, users, userDelete }) => {
         <>
             <div className="container">
                 <div className="row p-2 d-flex justify-content-center flex-row">
-                    <div className="p-4 pb-0 col-lg-10 col-md-12 border rounded bg-dark" style={{ maxHeight: 265, overflow: 'auto' }}>
+                    <div className="p-4 pb-0 col-lg-10 col-md-12 border rounded bg-dark">
                         <table className="table table-striped table-dark">
                             <caption className="text-white"></caption>
                             <thead>
