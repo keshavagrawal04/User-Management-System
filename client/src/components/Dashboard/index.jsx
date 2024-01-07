@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Dashboard = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const [user, setUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
@@ -159,8 +160,8 @@ const Dashboard = () => {
                 {user.role == 'admin'
                     ?
                     <>
-                        <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
-                        <UserTable setShow={setShow} users={users} userDelete={userDelete} setUser={setUser} />
+                        <ProfileUpdateModal show={show} setShow={setShow} user={selectedUser} userUpdate={userUpdate} />
+                        <UserTable setShow={setShow} users={users} userDelete={userDelete} setSelectedUser={setSelectedUser} />
                     </>
                     :
                     <>

@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 
-const UserTable = ({ setShow, setUser, users, userDelete }) => {
+const UserTable = ({ setShow, setSelectedUser, users, userDelete }) => {
     const [loading, setLoading] = useState(false);
 
     return (
@@ -33,7 +33,7 @@ const UserTable = ({ setShow, setUser, users, userDelete }) => {
                                         <td>{user.fullName}</td>
                                         <td>{user.age}</td>
                                         <td>{user.email}</td>
-                                        <td className="text-center"><Link className="edit text-center" onClick={(e) => { e.preventDefault(); setShow(true); setUser(user); }}><i id={user._id} className='fs-5 bx bxs-pencil border p-1 rounded bg-warning text-white'></i></Link></td>
+                                        <td className="text-center"><Link className="edit text-center" onClick={(e) => { e.preventDefault(); setShow(true); setSelectedUser(user); }}><i id={user._id} className='fs-5 bx bxs-pencil border p-1 rounded bg-warning text-white'></i></Link></td>
                                         <td className="text-center"><Link className="delete" onClick={(e) => { e.preventDefault(); userDelete(user._id, "Admin") }}><i className='fs-5 bx bxs-trash border p-1 rounded bg-danger text-white'></i></Link></td>
                                     </tr>
                                 ))}
