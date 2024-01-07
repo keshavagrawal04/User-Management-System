@@ -52,6 +52,7 @@ const getUsers = async (req, res) => {
     try {
         const users = await userService.getUsers();
         if (!users) return res.status(400).json({ message: responseMessage.USERS_DATA_NOT_FOUND });
+        logger.info(responseMessage.USER_DATA_RETRIEVAL);
         return res.status(200).json({ message: responseMessage.USER_DATA_RETRIEVAL, data: users });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
@@ -63,6 +64,7 @@ const getUser = async (req, res) => {
     try {
         const user = await userService.getUserById(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
+        logger.info(responseMessage.USER_DATA_RETRIEVAL);
         return res.status(200).json({ message: responseMessage.USER_DATA_RETRIEVAL, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
@@ -75,6 +77,7 @@ const deleteUser = async (req, res) => {
         const user = await userService.deleteUser(req.params.id);
         if (!user) return res.status(400).json({ message: responseMessage.USER_DATA_NOT_FOUND });
         await deleteOnCloudinary(user.profileImage);
+        logger.info(responseMessage.USER_DELETED);
         return res.status(200).json({ message: responseMessage.USER_DELETED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
@@ -93,6 +96,7 @@ const updateUser = async (req, res) => {
             req.body.profileImage = profileImage.url;
         }
         user = userService.updateUser(req.params.id, req.body);
+        logger.info(responseMessage.USER_UPDATED);
         return res.status(200).json({ message: responseMessage.USER_UPDATED, data: user });
     } catch (error) {
         return res.status(400).json({ message: responseMessage.INTERNAL_SERVER_ERROR, error: error.message });
@@ -109,6 +113,7 @@ const forgotPassword = async (req, res) => {
         let forgotPasswordToken = jwt.generateForgotPasswordToken(user);
         let url = `https://user-management-system-two.vercel.app/reset-password/${forgotPasswordToken}`;
         await send(email, 'Password Reset Email', url);
+        logger.info(responseMessage.RESET_PASSWORD_EMAIL_SEND_SUCCESS);
         return res.status(200).json({ message: responseMessage.RESET_PASSWORD_EMAIL_SEND_SUCCESS });
     } catch (error) {
         return res.status(400).json({ message: "Internal Server Error", error: error.message });
@@ -122,6 +127,7 @@ const resetPassword = async (req, res) => {
         if (!user) return res.status(400).json({ message: responseMessage.USER.USER_DATA_NOT_FOUND });
         req.body.password = await crypto.generateHash(req.body.password);
         user = userService.updateUser(req.user.userId, req.body);
+        logger.info(responseMessage.PASSWORD_RESET_SUCCESS);
         return res.status(200).json({ message: responseMessage.PASSWORD_RESET_SUCCESS });
     } catch (error) {
         return res.status(400).json({ message: "Internal Server Error", error: error.message });
@@ -140,6 +146,7 @@ const accessTokenRefresh = (req, res) => {
                 user_id: decode.id,
             }
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+            logger.info("Access Token Refreshed");
             return res.status(200).json({ message: "Access Token Refreshed", tokens: { access: accessToken } });
         });
     } catch (error) {
