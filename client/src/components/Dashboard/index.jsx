@@ -160,7 +160,7 @@ const Dashboard = () => {
                     ?
                     <>
                         <ProfileUpdateModal show={show} setShow={setShow} user={user} userUpdate={userUpdate} />
-                        <UserTable setShow={setShow} users={users} userDelete={userDelete} />
+                        <UserTable setShow={setShow} users={users} userDelete={userDelete} setUser={setUser} />
                     </>
                     :
                     <>
