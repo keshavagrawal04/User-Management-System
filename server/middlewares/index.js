@@ -1,7 +1,7 @@
-const authMiddleware = require('./auth.middleware');
-const multerMiddleware = require('./multer.middleware');
+const authMiddleware = require("./auth.middleware");
+const multerMiddleware = require("./multer.middleware");
 
 module.exports = {
-    authMiddleware,
-    multerMiddleware
-}
+  authMiddleware,
+  multerMiddleware,
+};

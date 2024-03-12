@@ -1,32 +1,59 @@
-const router = require('express').Router();
-const { userController } = require('../controllers');
-const { authMiddleware, multerMiddleware } = require('../middlewares');
+const router = require("express").Router();
+const { userController } = require("../controllers");
+const { authMiddleware, multerMiddleware } = require("../middlewares");
 
 // ROUTE : User Register
-router.post('/register', multerMiddleware.upload.single('profileImage'), userController.registerUser);
+router.post(
+  "/register",
+  multerMiddleware.upload.single("profileImage"),
+  userController.registerUser
+);
 
 // ROUTE : User Login
-router.post('/login', userController.loginUser);
+router.post("/login", userController.loginUser);
 
 // ROUTE : All Users Data Get
-router.get('/get', authMiddleware.authenticateToken, userController.getUsers);
+router.get("/get", authMiddleware.authenticateToken, userController.getUsers);
 
 // ROUTE : User Data Get By Id
-router.get('/get/:id', authMiddleware.authenticateToken, userController.getUser);
+router.get(
+  "/get/:id",
+  authMiddleware.authenticateToken,
+  userController.getUser
+);
 
 // ROUTE : User Data Delete By Id
-router.delete('/delete/:id', authMiddleware.authenticateToken, userController.deleteUser);
+router.delete(
+  "/delete/:id",
+  authMiddleware.authenticateToken,
+  userController.deleteUser
+);
 
 // ROUTE : User Data Update By Id
-router.patch('/update/:id', [authMiddleware.authenticateToken, multerMiddleware.upload.single('profileImage')], userController.updateUser);
+router.patch(
+  "/update/:id",
+  [
+    authMiddleware.authenticateToken,
+    multerMiddleware.upload.single("profileImage"),
+  ],
+  userController.updateUser
+);
 
 // ROUTE : Forgot Password
-router.post('/forgot-password', userController.forgotPassword);
+router.post("/forgot-password", userController.forgotPassword);
 
 // ROUTE : Password Reset
-router.post('/reset-password', authMiddleware.authenticateToken, userController.resetPassword);
+router.post(
+  "/reset-password",
+  authMiddleware.authenticateToken,
+  userController.resetPassword
+);
 
 // ROUTE : Access Token Refresh
-router.post('/token/refresh', authMiddleware.authenticateToken, userController.accessTokenRefresh);
+router.post(
+  "/token/refresh",
+  authMiddleware.authenticateToken,
+  userController.accessTokenRefresh
+);
 
 module.exports = router;

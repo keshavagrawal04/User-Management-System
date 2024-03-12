@@ -1,5 +1,5 @@
-const responseMessage = require('./responseMessages.config');
+const responseMessage = require("./responseMessages.config");
 
 module.exports = {
-    responseMessage
-}
+  responseMessage,
+};
