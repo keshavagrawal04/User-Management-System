@@ -11,9 +11,11 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: responseMessage.USER_ALREADY_EXISTS });
       logger.error(responseMessage.USER_ALREADY_EXISTS);
     } else {
-      const profileImageLocalPath = req.file.path;
-      const profileImage = await uploadOnCloudinary(profileImageLocalPath);
-      req.body.profileImage = profileImage.url;
+      if (req.file) {
+        const profileImageLocalPath = req.file.path;
+        const profileImage = await uploadOnCloudinary(profileImageLocalPath);
+        req.body.profileImage = profileImage.url;
+      }
       user = await userService.saveUser(req.body);
       logger.info(responseMessage.USER_REGISTERED);
       return res
@@ -22,12 +24,10 @@ const registerUser = async (req, res) => {
     }
   } catch (error) {
     logger.error(error.message);
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -60,12 +60,10 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     logger.error(error.message);
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -82,12 +80,10 @@ const getUsers = async (req, res) => {
       .status(200)
       .json({ message: responseMessage.USER_DATA_RETRIEVAL, data: users });
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -104,12 +100,10 @@ const getUser = async (req, res) => {
       .status(200)
       .json({ message: responseMessage.USER_DATA_RETRIEVAL, data: user });
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -127,12 +121,10 @@ const deleteUser = async (req, res) => {
       .status(200)
       .json({ message: responseMessage.USER_DELETED, data: user });
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -156,12 +148,10 @@ const updateUser = async (req, res) => {
       .status(200)
       .json({ message: responseMessage.USER_UPDATED, data: user });
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: responseMessage.INTERNAL_SERVER_ERROR,
-        error: error.message,
-      });
+    return res.status(400).json({
+      message: responseMessage.INTERNAL_SERVER_ERROR,
+      error: error.message,
+    });
   }
 };
 
@@ -228,12 +218,10 @@ const accessTokenRefresh = (req, res) => {
         };
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
         logger.info("Access Token Refreshed");
-        return res
-          .status(200)
-          .json({
-            message: "Access Token Refreshed",
-            tokens: { access: accessToken },
-          });
+        return res.status(200).json({
+          message: "Access Token Refreshed",
+          tokens: { access: accessToken },
+        });
       }
     );
   } catch (error) {
