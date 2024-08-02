@@ -9,7 +9,6 @@ const userSchema = mongoose.Schema(
     },
     age: {
       type: Number,
-      require: true,
     },
     contactNumber: {
       type: Number,
@@ -18,7 +17,6 @@ const userSchema = mongoose.Schema(
     },
     profileImage: {
       type: String,
-      require: true,
     },
     role: {
       type: String,
