@@ -1,7 +1,7 @@
 const cron = require("node-cron");
 const axios = require("axios");
 
-const ENABLED = process.env.AGENT_KEEP_ALIVE === "false";
+const ENABLED = process.env.AGENT_KEEP_ALIVE === "true";
 const URL = process.env.AGENT_SATHI_URL;
 const INTERVAL = process.env.AGENT_KEEP_ALIVE_INTERVAL || "*/5 * * * *";
 
